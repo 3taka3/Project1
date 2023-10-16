@@ -1,0 +1,45 @@
+hsuppression de dossier
+$deleteDirectories = @(
+    "C:\Users\User\Desktop\2delet",  
+    "C:\Users\User\Desktop\2delet2",
+    "C:\Users\User\Desktop\2delet3"
+)
+foreach($directory in $deleteDirectories){
+
+    Remove-Item $directory -Recurse -Force
+}
+
+Write-Host "Les fichiers temporaires ont bien ete supprime"
+----
+#téléchargement app automatique
+$softwareUrls =@("https://ec.ccm2.net/www.commentcamarche.net/download/files/SteamSetup-1603487799.exe")
+
+$destination = "C:Users\User\Desktop"
+
+#condition si repertoire inexistant
+if(!(Test-Path $destination)){
+
+    New-Item -ItemType Directory -Path $destination
+}
+
+foreach ($softwareUrl in $softwareUrls){
+
+    #definition du nom de fichier
+    $nomFichier =[system.IO.Path]::GetFileName($softwareUrl)
+
+    #invocatio de l'url et definition de sa destination
+    Invoke-WebRequest -Uri $softwareUrl -OutFile "$destination\$nomFichier"
+
+    Start-Process "$destination\$nomFichier" -wait
+}
+
+Write-Host "L'installation des logiciels ont ete realises avec suxes"
+----
+
+#Transfert de contenu d'un point a à b
+$source = "C:\Users\User\Desktop\PWShell"
+$destination = "C:\Users\User\Documents\Scripts\PowerShell"
+
+Get-ChildItem $source | Copy-Item -Destination $destination
+
+Write-Host "La sauvegarde a ete realisee avec suxes"
